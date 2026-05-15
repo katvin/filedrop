@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import type React from 'react';
 import { useTranslation } from 'react-i18not';
-import { IoInformationCircle, IoLogoGithub, IoLogoTwitter } from 'react-icons/io5';
+import { IoInformationCircle } from 'react-icons/io5';
 import { applicationStore } from '../stores/index.js';
 import { DropIcon } from './DropIcon.js';
 import styles from './Header.module.scss';
@@ -25,22 +25,6 @@ export const Header: React.FC = observer(() => {
           <Link to="/about" title={t('sections.about')}>
             <IoInformationCircle />
           </Link>
-          <a
-            href="https://github.com/mat-sz/filedrop"
-            target="_blank"
-            rel="noopener noreferrer"
-            title={t('sections.github')}
-          >
-            <IoLogoGithub />
-          </a>
-          <a
-            href="https://twitter.com/matsz_dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            title={t('sections.twitter')}
-          >
-            <IoLogoTwitter />
-          </a>
         </div>
       </nav>
     </header>

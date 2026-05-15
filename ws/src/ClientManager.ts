@@ -27,6 +27,7 @@ import {
   isRTCDescriptionMessageModel,
   isTransferMessageModel,
 } from './utils/validation.js';
+import { isSameLocalNetwork } from './utils/network.js';
 
 export class ClientManager {
   private clients = new Set<Client>();
@@ -191,13 +192,13 @@ export class ClientManager {
       try {
         const clients: ClientModel[] = networkClients.map((otherClient) => {
           return {
-            clientId: otherClient.clientId!,
-            clientName: otherClient.clientName,
-            publicKey: otherClient.publicKey,
-            isLocal: otherClient.remoteAddress === client.remoteAddress,
-            deviceType: otherClient.deviceType,
-          };
-        });
+              clientId: otherClient.clientId!,
+              clientName: otherClient.clientName,
+              publicKey: otherClient.publicKey,
+              isLocal: isSameLocalNetwork(otherClient.remoteAddress, client.remoteAddress),
+              deviceType: otherClient.deviceType,
+            };
+          });
 
         const networkMessage: NetworkMessageModel = {
           type: MessageType.NETWORK,
@@ -226,7 +227,7 @@ export class ClientManager {
 
   getLocalClients(client: Client) {
     return [...this.clients]
-      .filter((c) => c.remoteAddress === client.remoteAddress && c.networkName)
+      .filter((c) => isSameLocalNetwork(c.remoteAddress, client.remoteAddress) && c.networkName)
       .sort((a, b) => b.lastSeen.getTime() - a.lastSeen.getTime());
   }
 
@@ -248,7 +249,7 @@ export class ClientManager {
           return {
             clientId: otherClient.clientId!,
             clientName: otherClient.clientName,
-            isLocal: otherClient.remoteAddress === client.remoteAddress,
+            isLocal: isSameLocalNetwork(otherClient.remoteAddress, client.remoteAddress),
           };
         }),
       });

@@ -10,7 +10,7 @@ To the other device. Sometimes the (encrypted, since WebRTC uses encryption by d
 
 ## Doesn't this exist already?
 
-While [ShareDrop](https://github.com/cowbell/sharedrop) and [SnapDrop](https://github.com/RobinLinus/snapdrop) are both excellent projects and most definitely exist, I felt the need to create my own version for a several reasons:
+While ShareDrop and SnapDrop are both excellent projects and most definitely exist, I felt the need to create my own version for a several reasons:
 
 - I wanted to build something using React.js and TypeScript.
 - ShareDrop doesn't work when the devices are on different networks but still behind NAT.
