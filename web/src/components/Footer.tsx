@@ -26,11 +26,6 @@ export const Footer: React.FC = observer(() => {
         <li>
           <Link to="/tech">{t('sections.tech')}</Link>
         </li>
-        <li>
-          <a href="https://github.com/mat-sz/filedrop" target="_blank" rel="noopener noreferrer">
-            {t('sections.github')}
-          </a>
-        </li>
       </ul>
     </footer>
   );

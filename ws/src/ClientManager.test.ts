@@ -74,7 +74,7 @@ describe('ClientManager', () => {
     } as InitializeMessageModel);
 
     const client2 = new TestClient();
-    client2.remoteAddress = '127.0.0.2';
+    client2.remoteAddress = '127.0.1.2';
     client2.networkName = 'TEST';
     clientManager.handleMessage(client2, {
       type: MessageType.INITIALIZE,
@@ -114,6 +114,44 @@ describe('ClientManager', () => {
           clientId: client1.clientId,
         }),
       ]),
+    );
+  });
+
+  it('detects clients in the same subnet as local', async () => {
+    const clientManager = new ClientManager();
+
+    const client1 = new TestClient();
+    client1.remoteAddress = '192.168.1.10';
+    client1.networkName = 'TEST';
+    clientManager.handleMessage(client1, {
+      type: MessageType.INITIALIZE,
+      secret: 'ABCABCABCABC1',
+    } as InitializeMessageModel);
+
+    const client2 = new TestClient();
+    client2.remoteAddress = '192.168.1.11';
+    client2.networkName = 'TEST';
+    clientManager.handleMessage(client2, {
+      type: MessageType.INITIALIZE,
+      secret: 'ABCABCABCABC2',
+    } as InitializeMessageModel);
+
+    const client3 = new TestClient();
+    client3.remoteAddress = '192.168.2.11';
+    client3.networkName = 'TEST';
+    clientManager.handleMessage(client3, {
+      type: MessageType.INITIALIZE,
+      secret: 'ABCABCABCABC3',
+    } as InitializeMessageModel);
+
+    expect(clientManager.getLocalClients(client1)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ clientId: client1.clientId }),
+        expect.objectContaining({ clientId: client2.clientId }),
+      ]),
+    );
+    expect(clientManager.getLocalClients(client1)).not.toEqual(
+      expect.arrayContaining([expect.objectContaining({ clientId: client3.clientId })]),
     );
   });
 

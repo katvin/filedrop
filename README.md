@@ -14,7 +14,7 @@ Easy end-to-end encrypted, peer-to-peer file transfer.
 
 <p align="center">
     <a href="https://drop.lol/">
-        <img src="https://raw.githubusercontent.com/mat-sz/filedrop/master/docs/filedrop.gif" alt="Screenshot">
+        <img src="./docs/filedrop.gif" alt="Screenshot">
     </a>
 </p>
 

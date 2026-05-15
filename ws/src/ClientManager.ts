@@ -15,6 +15,7 @@ import {
 import { abuseEmail, appName, maxNetworkClients, maxSize, noticeText, noticeUrl, requireCrypto } from './config.js';
 import type { Client } from './types/Client.js';
 import { secretToId } from './utils/id.js';
+import { isSameLocalNetwork } from './utils/network.js';
 import { rtcConfiguration } from './utils/rtcConfiguration.js';
 import {
   isActionMessageModel,
@@ -194,7 +195,7 @@ export class ClientManager {
             clientId: otherClient.clientId!,
             clientName: otherClient.clientName,
             publicKey: otherClient.publicKey,
-            isLocal: otherClient.remoteAddress === client.remoteAddress,
+            isLocal: isSameLocalNetwork(otherClient.remoteAddress, client.remoteAddress),
             deviceType: otherClient.deviceType,
           };
         });
@@ -226,7 +227,7 @@ export class ClientManager {
 
   getLocalClients(client: Client) {
     return [...this.clients]
-      .filter((c) => c.remoteAddress === client.remoteAddress && c.networkName)
+      .filter((c) => isSameLocalNetwork(c.remoteAddress, client.remoteAddress) && c.networkName)
       .sort((a, b) => b.lastSeen.getTime() - a.lastSeen.getTime());
   }
 
@@ -248,7 +249,7 @@ export class ClientManager {
           return {
             clientId: otherClient.clientId!,
             clientName: otherClient.clientName,
-            isLocal: otherClient.remoteAddress === client.remoteAddress,
+            isLocal: isSameLocalNetwork(otherClient.remoteAddress, client.remoteAddress),
           };
         }),
       });
