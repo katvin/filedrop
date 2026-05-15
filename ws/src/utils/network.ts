@@ -1,5 +1,10 @@
 import { isIP } from 'node:net';
 
+// Treat local IPv4 peers as being in the same /24 subnet.
+const ipv4SubnetParts = 3;
+// Treat local IPv6 peers as being in the same /64 subnet.
+const ipv6SubnetHextets = 4;
+
 function normalizeAddress(address?: string) {
   if (!address) {
     return undefined;
@@ -40,7 +45,7 @@ function ipv6Subnet(address: string) {
   }
 
   const normalized = hextets.map((hextet) => hextet.padStart(4, '0'));
-  return normalized.slice(0, 4).join(':');
+  return normalized.slice(0, ipv6SubnetHextets).join(':');
 }
 
 export function isSameLocalNetwork(left?: string, right?: string) {
@@ -57,7 +62,10 @@ export function isSameLocalNetwork(left?: string, right?: string) {
   }
 
   if (leftType === 4) {
-    return leftAddress.split('.').slice(0, 3).join('.') === rightAddress.split('.').slice(0, 3).join('.');
+    return (
+      leftAddress.split('.').slice(0, ipv4SubnetParts).join('.') ===
+      rightAddress.split('.').slice(0, ipv4SubnetParts).join('.')
+    );
   }
 
   const leftSubnet = ipv6Subnet(leftAddress);
