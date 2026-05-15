@@ -14,9 +14,10 @@
 
 1. Ensure that your user is in the `docker` group.
 1. Run the following commands in terminal:
-   1. `cd ./filedrop`
-   2. `chmod +x ./docker-start.sh`
-   3. `./docker-start.sh`
+   1. Download/extract the project sources to `./filedrop`
+   2. `cd ./filedrop`
+   3. `chmod +x ./docker-start.sh`
+   4. `./docker-start.sh`
 
 TURN uses TCP port 3478 and UDP ports 49152-65535.
 
@@ -42,10 +43,11 @@ TURN uses TCP port 3478 and UDP ports 49152-65535.
 
 1. Set up and configure your TURN server and note down the secret for next steps.
 2. Run the following in terminal:
-   1. `cd ./filedrop`
-   2. `corepack yarn install`
-   3. `corepack yarn build`
-   4. `corepack yarn start`
+   1. Download/extract the project sources to `./filedrop`
+   2. `cd ./filedrop`
+   3. `corepack yarn install`
+   4. `corepack yarn build`
+   5. `corepack yarn start`
 
 ## Environment variables
 
