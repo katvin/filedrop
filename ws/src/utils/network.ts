@@ -57,9 +57,7 @@ export function isSameLocalNetwork(left?: string, right?: string) {
   }
 
   if (leftType === 4) {
-    return (
-      leftAddress.split('.').slice(0, 3).join('.') === rightAddress.split('.').slice(0, 3).join('.')
-    );
+    return leftAddress.split('.').slice(0, 3).join('.') === rightAddress.split('.').slice(0, 3).join('.');
   }
 
   const leftSubnet = ipv6Subnet(leftAddress);

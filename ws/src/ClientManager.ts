@@ -15,6 +15,7 @@ import {
 import { abuseEmail, appName, maxNetworkClients, maxSize, noticeText, noticeUrl, requireCrypto } from './config.js';
 import type { Client } from './types/Client.js';
 import { secretToId } from './utils/id.js';
+import { isSameLocalNetwork } from './utils/network.js';
 import { rtcConfiguration } from './utils/rtcConfiguration.js';
 import {
   isActionMessageModel,
@@ -27,7 +28,6 @@ import {
   isRTCDescriptionMessageModel,
   isTransferMessageModel,
 } from './utils/validation.js';
-import { isSameLocalNetwork } from './utils/network.js';
 
 export class ClientManager {
   private clients = new Set<Client>();
@@ -192,13 +192,13 @@ export class ClientManager {
       try {
         const clients: ClientModel[] = networkClients.map((otherClient) => {
           return {
-              clientId: otherClient.clientId!,
-              clientName: otherClient.clientName,
-              publicKey: otherClient.publicKey,
-              isLocal: isSameLocalNetwork(otherClient.remoteAddress, client.remoteAddress),
-              deviceType: otherClient.deviceType,
-            };
-          });
+            clientId: otherClient.clientId!,
+            clientName: otherClient.clientName,
+            publicKey: otherClient.publicKey,
+            isLocal: isSameLocalNetwork(otherClient.remoteAddress, client.remoteAddress),
+            deviceType: otherClient.deviceType,
+          };
+        });
 
         const networkMessage: NetworkMessageModel = {
           type: MessageType.NETWORK,
